@@ -37,6 +37,7 @@ const StudentDashboard = () => {
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'roadmaps', label: 'Learning Roadmaps', icon: Map },
     { id: 'schedule', label: 'Schedule', icon: Calendar },
+    { id: 'achievements', label: 'Achievements', icon: Award },
     { id: 'messages', label: 'Messages', icon: MessageCircle },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
@@ -316,6 +317,23 @@ const StudentDashboard = () => {
           </div>
         </div>
       </div>
+      
+      <div className="bg-white rounded-xl p-6 shadow-sm border">
+        <h3 className="font-semibold mb-4">Recent Achievements</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {achievements.map(achievement => (
+            <div key={achievement.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+              <div className="text-2xl">{achievement.icon}</div>
+              <div>
+                <p className="font-medium">{achievement.title}</p>
+                <p className="text-sm text-gray-600">{achievement.date}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
   const renderRoadmaps = () => (
     <div className="space-y-6">
@@ -455,7 +473,21 @@ const StudentDashboard = () => {
         return renderRoadmaps();
       case 'schedule':
         return renderSchedule();
-      
+      case 'achievements':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold">Achievements</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {achievements.map(achievement => (
+                <div key={achievement.id} className="bg-white rounded-xl p-6 shadow-sm border text-center">
+                  <div className="text-4xl mb-3">{achievement.icon}</div>
+                  <h3 className="font-semibold text-lg mb-2">{achievement.title}</h3>
+                  <p className="text-gray-600 text-sm">Earned on {achievement.date}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
       case 'messages':
         return (
           <div className="space-y-6">
