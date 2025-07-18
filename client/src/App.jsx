@@ -2,22 +2,28 @@ import ImageSlider from "./components/imageSlider"
 import LandingPage from "./pages/landing"
 import {BrowserRouter , Routes , Route, Navigate}  from "react-router-dom"
 import Login from "./pages/login"
-import Home from "./pages/home"
 import { useStore } from "./store"
 import { useEffect } from "react"
 import { Api } from "./API"
 import Signup from "./pages/register"
+import Stucture from "./pages/structure"
+import LoginRegisterForm from "./pages/authentication"
 const App = () => {
   const {userInfo , setUserInfo} = useStore() ;
 
   const PrivateRoute = ({children}) => {
     const {userInfo} = useStore()
-    return !!userInfo ? children : <Navigate to={'/'}/>
+    return !!userInfo ? children : <LandingPage/>
   }
 
   const RedirectIfAuthenticated = ({children}) => {
     const {userInfo} = useStore()
-    return userInfo ? <Navigate to={'/home'} /> : children
+    return !userInfo ? <LandingPage /> : children
+  }
+
+  const AlreadyLoggedIn = ({children}) => {
+    const {userInfo} = useStore()
+    return userInfo ? <Navigate to={'/'} /> : children
   }
 
 
@@ -43,10 +49,11 @@ const App = () => {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<RedirectIfAuthenticated><LandingPage/></RedirectIfAuthenticated>} />
-      <Route path="/login" element={<RedirectIfAuthenticated><Login/></RedirectIfAuthenticated>} />
-      <Route path="/register" element={<RedirectIfAuthenticated><Signup/></RedirectIfAuthenticated>} />
-      <Route path="/home" element={<PrivateRoute><Home/></PrivateRoute>}/>
+      <Route path="/*" element={<RedirectIfAuthenticated><Stucture/></RedirectIfAuthenticated>} />
+      <Route path="/login" element={<AlreadyLoggedIn><Login/></AlreadyLoggedIn>} />
+      <Route path="/register" element={<AlreadyLoggedIn><Signup/></AlreadyLoggedIn>} />
+      <Route path="/auth" element={<LoginRegisterForm/>}/>
+      {/* <Route path="/structure/*" element={<PrivateRoute><Stucture/></PrivateRoute>}/> */}
     </Routes>
     </BrowserRouter>
   )

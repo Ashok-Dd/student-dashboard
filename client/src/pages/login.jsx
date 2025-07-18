@@ -26,7 +26,8 @@ const Login = () => {
                 setUserInfo(data)
                 console.log(userInfo)
                 toast.success(data.message)
-                nav('/home')
+                window.location.reload()
+                nav('/')
                 
             }
         } catch (error) {
@@ -40,29 +41,33 @@ const Login = () => {
         }
     }
 
+    
+
     return (
          <> 
-             <div className="h-screen flex-col w-full bg-gray-100 flex justify-center gap-10 items-center">
-               <form onSubmit={handleLogin} className="container relative h-[45%] w-full sm:w-[50%] lg:w-[25%] flex flex-col border-2 border-orange-500 items-center justify-evenly rounded-xl shadow-xl  bg-orange-100 " >
+             <div className="h-screen flex-col w-full bg-gray-100 flex justify-center  items-center">
+               <form onSubmit={handleLogin} className="container relative h-[350px] w-full sm:w-[50%] lg:w-[25%] flex flex-col border-2 border-orange-500 items-center justify-evenly rounded-xl shadow-xl  bg-orange-100 " >
                 <div className=" absolute top-[-60px] logo w-[120px] h-[120px] bg-orange-100 rounded-full  border-t-2 border-orange-500 " >
                     <div className='w-full h-full  flex items-center justify-center text-orange-500'>
                         <User2 className='w-[70%] h-[70%]'/>
                     </div>
                 </div>
-                <div className="flex mt-10 flex-1 flex-col items-center justify-center text-xl  w-full gap-12 ">
-                    <div className='flex w-[90%]  justify-center  h-10 '>
+                <div className="w-full flex justify-center mt-[60px]">
+                        <h1 className="text-orange-500 text-2xl font-bold uppercase">login</h1>
+                </div>
+                <div className="flex mt-0 flex-1 flex-col items-center justify-center text-xl w-full gap-7">
+                    <div className='flex w-[90%] justify-center  h-10 '>
                         <div className='text-orange-500 rounded-l-lg bg-gray-100  flex items-center justify-center w-[15%]'>
                             <User />
                         </div>
-                        <input type="email" placeholder='Enter your Email' value={email} onChange={(e) => setEmail(e.target.value)}  className="outline-none rounded-r-lg bg-gray-100  "/>
+                        <input type="email" placeholder='Enter your Email' value={email} onChange={(e) => setEmail(e.target.value)}  className="outline-none text-orange-500 rounded-r-lg bg-gray-100  "/>
                     </div>
                     <div className='flex w-[90%] justify-center  h-10'>
                         <div className='text-orange-500 bg-gray-100 rounded-l-lg   flex items-center justify-center w-[15%]'>
                             <Lock />
                         </div>
-                        <input type="password"  placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="outline-none rounded-r-lg   bg-gray-100 "/>
-                    </div>
-                    
+                        <input type="password"  placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="outline-none text-orange-500 rounded-r-lg bg-gray-100 "/>
+                    </div> 
                 </div>
                 
                     

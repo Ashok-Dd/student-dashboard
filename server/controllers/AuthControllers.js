@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { Student } from '../models/StudentModel.js';
-
+import axios from 'axios'
 export const Login = async(req , res) => {
     try {
         const {email , password} = req.body ;
@@ -35,7 +35,6 @@ export const Login = async(req , res) => {
         return res.status(500).json({message : 'Internal server error'})
     }
 }
-
 
 export const Register = async (req , res) => {
     try {        
@@ -74,7 +73,6 @@ export const Register = async (req , res) => {
     }
 }
 
-
 export const checkAuth = async(req , res) => {
     try {        
         let user = await Student.findById(req.userId).select("-password");
@@ -103,5 +101,92 @@ export const logout = async(req , res) => {
         return res.status(400).json({message : "Internal server issue ..."}) ;
     }
 }
+
+export const isPasswordValid = async(req , res) => {
+    try {
+        const {email , password} = req.body;
+        if (!password) {
+            return res.status(200).json({success : false , message : "Please enter your password !"})
+        }
+        const user = await Student.findOne({email})
+        const isPasswordMatched = await bcrypt.compare(password , user.password);
+        if(!isPasswordMatched) {
+            return res.status(200).json({success : false , message : "Wrong password"});
+        }
+        else {
+            return res.status(200).json({success : true , message : "Valid password"})
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({success : false , message : "Internal server issue .."})
+    }
+}
+
+export const getLeetcodeProfile = async (req, res) => {
+  const { username } = req.body;
+
+  const query = {
+    query: `
+      query getUserAndTotalProblems($username: String!) {
+        matchedUser(username: $username) {
+          profile {
+            ranking
+            userAvatar
+          }
+          submitStatsGlobal {
+            acSubmissionNum {
+              difficulty
+              count
+            }
+          }
+        }
+        allQuestionsCount {
+          difficulty
+          count
+        }
+      }
+    `,
+    variables: { username }
+  };
+
+  try {
+    const response = await axios.post("https://leetcode.com/graphql", query, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const { matchedUser, allQuestionsCount } = response.data.data;
+
+    if (!matchedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const { profile, submitStatsGlobal } = matchedUser;
+    const solved = submitStatsGlobal.acSubmissionNum;
+
+    const formatStats = (difficulty) => {
+      return {
+        solved: solved.find(x => x.difficulty === difficulty)?.count || 0,
+        total: allQuestionsCount.find(x => x.difficulty === difficulty)?.count || 0,
+      };
+    };
+
+    const result = {
+      username,
+      rank: profile.ranking,
+      avatar: profile.userAvatar,
+      easy: formatStats("Easy"),
+      medium: formatStats("Medium"),
+      hard: formatStats("Hard"),
+    };
+
+    
+    return res.json(result);
+
+  } catch (error) {
+    console.error("LeetCode fetch failed:", error.message);
+    return res.status(500).json({ error: "LeetCode fetch failed" });
+  }
+};
+
 
 

@@ -15,8 +15,8 @@ const NavBar = () => {
                 <span>Student Dashboard</span>
             </div>
             <div className="flex justify-end  items-center flex-1  mr-[2%] hidden sm:flex">
-                <button  className="relative px-4 py-3 text-orange-500 uppercase hover:text-yellow-500 hover:border-yellow-500 transition-colors duration-300 group" onClick={() => nav('/login')}><span className='absolute left-1/2 bottom-0 w-0 h-[2px] bg-yellow-500 transition-all duration-300 group-hover:w-full transform -translate-x-1/2'></span>login</button>
-                <button  className="relative px-4 py-3 text-orange-500 uppercase hover:text-yellow-500 hover:border-yellow-500 transition-colors duration-300 group" onClick={() => nav('/register')}><span className='absolute left-1/2 bottom-0 w-0 h-[2px] bg-yellow-500 transition-all duration-300 group-hover:w-full transform -translate-x-1/2'></span>register</button>
+                <button  className="relative px-4 py-3 text-orange-800 uppercase hover:text-orange-500 hover:border-orange-500 transition-colors duration-300 group" onClick={() => nav('/login')}><span className='absolute left-1/2 bottom-0 w-0 h-[2px] bg-orange-500 transition-all duration-300 group-hover:w-full transform -translate-x-1/2'></span>login</button>
+                <button  className="relative px-4 py-3 text-orange-800 uppercase hover:text-orange-500 hover:border-orange-500 transition-colors duration-300 group" onClick={() => nav('/register')}><span className='absolute left-1/2 bottom-0 w-0 h-[2px] bg-orange-500 transition-all duration-300 group-hover:w-full transform -translate-x-1/2'></span>register</button>
             </div>
             <div className='sm:hidden flex justify-end flex-1 p-2 text-orange-400 '>
             <button className='rounded-full w-8 h-8  mr-2 flex items-center justify-center hover:bg-orange-400 hover:text-white  transition-all duration-300 ease-in-out ' onClick={() => setIsopen((prev) => !prev)}><Menu/></button>
