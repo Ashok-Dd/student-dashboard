@@ -5,9 +5,11 @@ import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Search } from "lucide-react";
 import { Loader2 } from "lucide-react";
+import { useStore } from "../store";
 
 const LeetCodeStats = () => {
-  const [userId, setUserId] = useState("");
+  const {userInfo , setUserInfo} = useStore()
+  const [userId, setUserId] = useState('');
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -104,7 +106,7 @@ const LeetCodeStats = () => {
 
         </div>
       )}
-
+      
     </div>
   );
 };

@@ -47,7 +47,7 @@ const Signup = () => {
     return (
         <>
             <div className="h-screen w-full flex flex-col justify-center items-center bg-white">
-                <form onSubmit={handleRegister} className="container border-2 border-orange-500 relative h-[60%] sm:h-[72%] w-full sm:w-[50%] lg:w-[40%] flex flex-col gap-3 items-center justify-evenly rounded-xl shadow-2xl bg-orange-100">
+                <form onSubmit={handleRegister} className="container border-2 border-orange-500 relative h-[500px] sm:h-[72%] w-full sm:w-[50%] lg:w-[40%] flex flex-col gap-3 items-center justify-evenly rounded-xl shadow-2xl bg-orange-100">
                     <div className="absolute top-[-65px] logo w-[120px] h-[120px] border-t-2 border-orange-500 bg-orange-100 rounded-full">
                         <div className='w-full h-full flex items-center justify-center text-orange-500'>
                             <User2 className='w-[55%] h-[55%]' />
@@ -85,7 +85,10 @@ const Signup = () => {
                                 <select className="w-full h-full bg-gray-100 text-orange-500 px-4 rounded outline-none " value={branch} onChange={(e) => setBranch(e.target.value)} >
                                     <option disabled selected>Branch</option>
                                     <option value="CSE">CSE</option>
+                                    <option value="IT">IT</option>
+                                    <option value="CSD">CSD</option>
                                     <option value="ECE">ECE</option>
+                                    <option value="EEE">EEE</option>
                                     <option value="MECH">MECH</option>
                                     <option value="CIVIL">CIVIL</option>
                                 </select>

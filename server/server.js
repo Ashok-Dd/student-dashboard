@@ -5,6 +5,10 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import router from './routes/AuthRoutes.js'
+import profileRoutes from './routes/profileRoutes.js'
+import adminRouter from './routes/AdminRoutes.js'
+import courseRouter from './routes/courseRoutes.js'
+import studentRoutes from './routes/StudentRoutes.js'
 
 dotenv.config()
 
@@ -21,6 +25,10 @@ app.use(cors({
 }))
 
 app.use('/auth' , router)
+app.use('/admin' , adminRouter)
+app.use('/profile' , profileRoutes)
+app.use('/course' , courseRouter)
+app.use('/students' , studentRoutes)
 
 const PORT = 5000
 server.listen(PORT , () => {

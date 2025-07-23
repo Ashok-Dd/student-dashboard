@@ -1,5 +1,5 @@
 import ImageSlider from "./components/imageSlider"
-import LandingPage from "./pages/landing"
+import LandingPage from "./pages/Landing.jsx"
 import {BrowserRouter , Routes , Route, Navigate}  from "react-router-dom"
 import Login from "./pages/login"
 import { useStore } from "./store"
@@ -8,6 +8,8 @@ import { Api } from "./API"
 import Signup from "./pages/register"
 import Stucture from "./pages/structure"
 import LoginRegisterForm from "./pages/authentication"
+import AdminLogin from "./pages/adminLogin"
+import AddStudent from "./pages/sample"
 const App = () => {
   const {userInfo , setUserInfo} = useStore() ;
 
@@ -23,7 +25,7 @@ const App = () => {
 
   const AlreadyLoggedIn = ({children}) => {
     const {userInfo} = useStore()
-    return userInfo ? <Navigate to={'/'} /> : children
+    return userInfo ? userInfo.isAdmin ? <Navigate to={'/students'}/> : <Navigate to={'/'} /> : children
   }
 
 
@@ -49,11 +51,12 @@ const App = () => {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/*" element={<RedirectIfAuthenticated><Stucture/></RedirectIfAuthenticated>} />
+      <Route path='/*' element={<RedirectIfAuthenticated><Stucture/></RedirectIfAuthenticated>} />
       <Route path="/login" element={<AlreadyLoggedIn><Login/></AlreadyLoggedIn>} />
+      <Route path="/admin-login" element={<AlreadyLoggedIn><AdminLogin/></AlreadyLoggedIn>} />
       <Route path="/register" element={<AlreadyLoggedIn><Signup/></AlreadyLoggedIn>} />
       <Route path="/auth" element={<LoginRegisterForm/>}/>
-      {/* <Route path="/structure/*" element={<PrivateRoute><Stucture/></PrivateRoute>}/> */}
+      <Route path="/x" element={<AddStudent/>}/>
     </Routes>
     </BrowserRouter>
   )

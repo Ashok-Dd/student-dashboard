@@ -21,7 +21,7 @@ const ContactUs = () => {
       <div className='flex flex-col items-center justify-center pb-5'>
         <h2 className="text-3xl font-bold flex justify-center items-center text-orange-800 p-6 ">Contact Information</h2>
         <h3 className='text-black '> <span className='font-bold text-lg text-black'>Email:</span> support@educore.com</h3>
-       <h3 className='text-black '> <span className='font-bold text-lg text-black'>Phone:</span> +91 98765 43210</h3>
+       <h3 className='text-black '> <span className='font-bold text-lg text-black'>Phone:</span> +91 1234567890</h3>
        <h3 className='text-black '> <span className='font-bold text-lg text-black'>Address:</span>123, Bhimavaram, Andhra pradesh, India </h3>
 
 

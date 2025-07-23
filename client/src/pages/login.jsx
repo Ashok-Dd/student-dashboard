@@ -81,6 +81,9 @@ const Login = () => {
                
               
             </div>
+
+            <button className='fixed bottom-5 right-5 bg-orange-500 px-2 py-2 rounded-lg hover:bg-orange-400 shadow-xl animate-bounce cursor-pointer text-white' onClick={() => nav('/admin-login')} >Admin login</button>
+
          </>
     )
 }

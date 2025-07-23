@@ -36,14 +36,18 @@ const nav = useNavigate()
 
 
       <div className={`fixed top-0 bottom-0 left-0 z-40 bg-orange-100 shadow-xl rounded-r-2xl px-6 py-10 flex flex-col justify-between transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:rounded-r-2xl w-[80%] sm:w-[60%] md:w-[28%] lg:w-[18%]`}>
-        
         <div className="text-center">
           <h2 className="text-orange-600 text-2xl font-bold mb-10">Eduportal</h2>
           <div className="space-y-1 flex flex-col text-orange-600 font-medium">
-              <Link to={'/'} className="cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 transition-colors duration-300" onClick={() => setOpen(false)}> Dashboard </Link>
-              <Link to={'/contact-us'} className="cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 transition-colors duration-300" onClick={() => setOpen(false)}> Contact Us </Link>
-              <Link to={'/about-us'} className="cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 transition-colors duration-300" onClick={() => setOpen(false)}> About us </Link>
+              <Link to={'/'} className={`cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 transition-colors duration-300 ${userInfo.isAdmin ? "hidden" : "" } `} onClick={() => setOpen(false)}> Dashboard </Link>
+              <Link to={'/students'} className={`cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 transition-colors duration-300 ${userInfo.isAdmin ? "" : "hidden" } `} onClick={() => setOpen(false)}> Students </Link>
+              <Link to={'/course-registration'} className={`cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 transition-colors duration-300 ${userInfo.isAdmin ? "" : "hidden" } `} onClick={() => setOpen(false)}> Course registration </Link>
+              <Link to={'/analytics-dashboard'} className={`cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 transition-colors duration-300 ${userInfo.isAdmin ? "" : "hidden" } `} onClick={() => setOpen(false)}> Analytics Dashboard </Link>
               <Link to={'/courses'} className="cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 transition-colors duration-300" onClick={() => setOpen(false)}> Courses </Link>
+        
+              <Link to={'/contact-us'} className={`cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 ${userInfo.isAdmin ? "hidden" : ""} transition-colors duration-300`} onClick={() => setOpen(false)}> Contact Us </Link>
+              <Link to={'/about-us'} className={`cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 ${userInfo.isAdmin ? "hidden" : ""} transition-colors duration-300`} onClick={() => setOpen(false)}> About us </Link>
+              <Link to={'/make-new-admin'} className={`cursor-pointer text-lg px-4 py-2 rounded-md hover:bg-orange-200 hover:text-orange-500 ${userInfo.isAdmin ? "" : "hidden"} transition-colors duration-300`} onClick={() => setOpen(false)}> Make new Admin </Link>
           </div>
         </div>
         <button className="flex items-center justify-center gap-2 p-3 rounded-lg bg-orange-500 text-white hover:bg-orange-600 w-full transition-all duration-300" onClick={() => setOpenPopup((prev) => !prev)}><LogOut size={20} />Logout </button>

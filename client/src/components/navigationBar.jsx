@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import img1 from '/1.jpg'
+import img1 from '/logo.png'
 import {Menu} from "lucide-react"
 import { useNavigate } from 'react-router-dom';
 const NavBar = () => {
