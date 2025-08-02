@@ -99,14 +99,14 @@ const AddStudent = () => {
                         <div className="w-10 flex items-center justify-center text-orange-500">
                             <User />
                         </div>
-                        <input type="email" placeholder="Enter your Email" className="flex-1 outline-none bg-gray-100 pl-2 text-orange-500 placeholder-orange-500" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <input type="email" autoComplete="new-email" placeholder="Enter your Email" className="flex-1 outline-none bg-gray-100 pl-2 text-orange-500 placeholder-orange-500" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </div>
 
                     <div className="flex w-full rounded overflow-hidden bg-gray-100 h-10">
                         <div className="w-10 flex items-center justify-center text-orange-500">
                             <Lock />
                         </div>
-                        <input type="password" placeholder="Password" className="flex-1 outline-none bg-gray-100 pl-2 text-orange-500 placeholder-orange-500" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        <input type="password" autoComplete="new-password" placeholder="Password" className="flex-1 outline-none bg-gray-100 pl-2 text-orange-500 placeholder-orange-500" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </div>
 
                     <div className="flex w-full rounded overflow-hidden bg-gray-100 h-10">

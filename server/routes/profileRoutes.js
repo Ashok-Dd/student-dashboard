@@ -11,6 +11,6 @@ profileRoutes.post('/update-personal-details' , verifyToken , updatePersonalDeta
 profileRoutes.post('/update-academic-details' , verifyToken , updateAcademicDetails) ;
 profileRoutes.get('/is-personal-info-updated' , verifyToken , isPersonalInfoUpdated)
 profileRoutes.get('/is-academic-info-updated' , verifyToken , isAcademicInfoUpdated)
-profileRoutes.get('/get-student/:id' , getStudentById   )
+profileRoutes.get('/get-student/:id' , getStudentById)
 
 export default profileRoutes ;

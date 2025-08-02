@@ -179,7 +179,8 @@ const Courses = () => {
                     </div>
                 </div>
             </div>
-            {openCnf1.state && (<div className="fixed z-60  inset-0 bg-black/70 flex items-center justify-center ">
+            {openCnf1.state && (
+                <div className="fixed z-60  inset-0 bg-black/70 flex items-center justify-center ">
                 <div className="w-[100%] relative sm:w-[80%] md:w-[50%] lg:w-[30%] bg-orange-200 rounded-lg flex flex-col gap-4 shadow-md h-[200px]  ">
                     <div className=" py-2 px-6 border-b-2 border-red-500">
                         <h2 className="text-red-500  text-xl font-bold uppercase text-center">Confirmation</h2>

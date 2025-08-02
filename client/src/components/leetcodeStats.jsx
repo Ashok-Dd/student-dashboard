@@ -6,7 +6,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { Search } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { useStore } from "../store";
-
+import {toast} from 'react-toastify' ;
 const LeetCodeStats = () => {
   const {userInfo , setUserInfo} = useStore()
   const [userId, setUserId] = useState('');
@@ -19,7 +19,7 @@ const LeetCodeStats = () => {
       const res = await axios.post(Api + "/auth/get-leetcode-profile", { username });
       return res.data;
     } catch (err) {
-      console.error("Error fetching from backend:", err);
+      toast.error(err?.response?.data?.message || "Something went wrong !")
       return null;
     }
   };

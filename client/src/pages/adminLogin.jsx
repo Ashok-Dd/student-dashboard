@@ -60,13 +60,13 @@ const AdminLogin = () => {
                         <div className='text-orange-500 rounded-l-lg bg-gray-100  flex items-center justify-center w-[15%]'>
                             <User />
                         </div>
-                        <input type="email" placeholder='Enter your Email' value={email} onChange={(e) => setEmail(e.target.value)}  className="outline-none text-orange-500 rounded-r-lg bg-gray-100  "/>
+                        <input type="email" autoComplete="new-email" placeholder='Enter your Email' value={email} onChange={(e) => setEmail(e.target.value)}  className="outline-none text-orange-500 rounded-r-lg bg-gray-100  "/>
                     </div>
                     <div className='flex w-[90%] justify-center  h-10'>
                         <div className='text-orange-500 bg-gray-100 rounded-l-lg   flex items-center justify-center w-[15%]'>
                             <Lock />
                         </div>
-                        <input type="password"  placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="outline-none text-orange-500 rounded-r-lg bg-gray-100 "/>
+                        <input type="password" autoComplete="new-password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="outline-none text-orange-500 rounded-r-lg bg-gray-100 "/>
                     </div> 
                 </div>
                 

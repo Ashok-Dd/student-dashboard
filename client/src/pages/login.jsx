@@ -60,13 +60,14 @@ const Login = () => {
                         <div className='text-orange-500 rounded-l-lg bg-gray-100  flex items-center justify-center w-[15%]'>
                             <User />
                         </div>
-                        <input type="email" placeholder='Enter your Email' value={email} onChange={(e) => setEmail(e.target.value)}  className="outline-none text-orange-500 rounded-r-lg bg-gray-100  "/>
+                        <input type="email" autoComplete='new-email' placeholder='Enter your Email' value={email} onChange={(e) => setEmail(e.target.value)}  className="outline-none text-orange-500 rounded-r-lg bg-gray-100  "/>
                     </div>
-                    <div className='flex w-[90%] justify-center  h-10'>
+                    <div className='flex relative w-[90%] justify-center  h-10'>
                         <div className='text-orange-500 bg-gray-100 rounded-l-lg   flex items-center justify-center w-[15%]'>
                             <Lock />
                         </div>
-                        <input type="password"  placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="outline-none text-orange-500 rounded-r-lg bg-gray-100 "/>
+                        <input type="password" autocomplete="new-password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="outline-none text-orange-500 rounded-r-lg bg-gray-100 "/>
+                        <span className='absolute bottom-[-20px] right-10 text-sm text-orange-500 hover:text-orange-700 cursor-pointer' onClick={() => nav('/forget-password')} >forget password?</span>
                     </div> 
                 </div>
                 

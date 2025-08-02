@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken'
 import { Student } from '../models/StudentModel.js';
 import axios from 'axios'
 import { Admin } from '../models/AdminModel.js';
+import nodemailer from 'nodemailer' ;
+
 
 export const adminLogin = async(req , res) => {
     try {
@@ -37,6 +39,8 @@ export const adminLogin = async(req , res) => {
         return res.status(500).json({message : 'Internal server error'})
     }
 }
+
+
 
 export const adminRegister = async (req , res) => {
     try {        
@@ -74,6 +78,18 @@ export const adminRegister = async (req , res) => {
         return res.status(400).json({message : "Internal server issue ." , error})
     }
 }
+
+export const removeStudent = async(req , res) => {
+    try {
+        const {id} = req.body ;
+        await Student.findByIdAndDelete(id);
+        return res.status(200).json({message : "Student deleted successfully !" , success : true })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({success : false , message : "Internal server issue "});
+    }
+}
+
 
 export const addStudent = async(req , res) => {
     try {
@@ -230,6 +246,29 @@ export const isPasswordValid = async(req , res) => {
     }
 }
 
+export const isPasswordValidToRemoveStudent = async(req , res) => {
+    try {
+        const {password} = req.body;
+        if (!password) {
+            return res.status(200).json({success : false , message : "Please enter your password !"})
+        }
+        
+        const user = await Admin.findById(req.userId);
+        
+        const isPasswordMatched = await bcrypt.compare(password , user.password);
+        if(!isPasswordMatched) {
+            return res.status(200).json({success : false , message : "Wrong password"});
+        }
+        else {
+            return res.status(200).json({success : true , message : "Valid password"})
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({success : false , message : "Internal server issue .."})
+    }
+}
+
+
 export const getLeetcodeProfile = async (req, res) => {
   const { username } = req.body;
 
@@ -258,9 +297,15 @@ export const getLeetcodeProfile = async (req, res) => {
   };
 
   try {
-    const response = await axios.post("https://leetcode.com/graphql", query, {
-      headers: { "Content-Type": "application/json" },
-    });
+    let response ;
+    try {
+        response = await axios.post("https://leetcode.com/graphql", query, {
+          headers: { "Content-Type": "application/json" },
+        });
+    } catch (error) {
+        return res.status(500).json({success : false , message : "Please connect to good internet "})
+    }
+
 
     const { matchedUser, allQuestionsCount } = response.data.data;
 
@@ -287,7 +332,6 @@ export const getLeetcodeProfile = async (req, res) => {
       hard: formatStats("Hard"),
     };
 
-    
     
     return res.json(result);
 
@@ -351,5 +395,86 @@ export const sendGenderStatus = async(req , res) => {
         return res.status(500).json({success : false , message : "Internal server issue ... "})
     }
 }
+
+
+export const ContactUs = async(req, res) => {
+    const {name , email , message} = req.body ;
+    const transporter = nodemailer.createTransport({
+        service:'gmail',
+        auth:{
+            user:'bonguashok86@gmail.com',
+            pass:'zwnv umsd ohmx bsgm'
+        }
+    })
+    const mailOptions = {
+        from: 'EDUPORTAL',
+        to : process.env.email,
+        subject : 'Hey admin ! Got some message from a student  ',
+        text:`From ${name} ! \n Message :  ${message}`,
+        replyTo: email,
+    }
+
+    try {
+        await transporter.sendMail(mailOptions)
+        res.status(200).json({message: 'You will be replied by organisation soon !' , success : true })
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({message:'Failed to contact with organisation' , success : false})
+    }
+}
+
+const generateOtp =() => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+
+
+
+
+export const forgetPassword = async(req , res) => {
+    try {
+        const {email , password} = req.body ;
+        const hashedPassword  = await bcrypt.hash(password , 10 );
+        const user = await Student.findOne({email});
+        if(!user) {
+            return res.status(400).json({message :"Email doesn't exist .. " , success : false })
+        }
+        user.password = hashedPassword 
+        await user.save() ;
+        return res.status(200).json({message :"Password changed successfully !" , success : true , user})
+    } catch (error) {
+        console.log("Forget password error : " + error);
+        res.status(500).json({message:'Internal server issue' , success : false})
+        
+    }
+}
+
+
+
+export const sendOtp = async(req , res) => {
+    try {
+        const {email} = req.body ;
+        const otp = generateOtp() ;
+        const transporter = nodemailer.createTransport({
+            service:'gmail',
+            auth:{
+                user:process.env.EMAIL,
+                pass:process.env.PASSWORD
+            }
+        })
+    const mailOptions = {
+        from: 'EDUPORTAL',
+        to : email,
+        subject : 'Your OTP here :  ',
+        text:`Forgot password ... your OTP is ${otp}`,
+    }
+    await transporter.sendMail(mailOptions)
+    res.status(200).json({message: 'OTP sent successfully !' , success : true , otp })
+    } catch (error) {
+        console.log("OTP error : " + error);
+        res.status(500).json({message:'Internal server issue' , success : false})
+    }
+}
+
 
 

@@ -36,8 +36,8 @@ const AdminRegister = () => {
                 <div className="font-bold text-3xl text-orange-500 flex items-center justify-center p-4">Admin Register</div>
                 <div className="flex flex-col gap-2   ">
                     <input type="text" className=" h-10 bg-orange-100  rounded-md shadow-md p-2 focus:outline-none focus:ring-1 focus:ring-orange-500" placeholder="Enter Admin's name " value={name} onChange={(e) => setName(e.target.value)} />
-                    <input type="email" className=" h-10 bg-orange-100 rounded-md shadow-md  p-2 focus:outline-none focus:ring-1 focus:ring-orange-500" placeholder="Enter Admin's email " value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <input type="password" className=" h-10 bg-orange-100 rounded-md shadow-md p-2 focus:outline-none focus:ring-1 focus:ring-orange-500" placeholder="Password " value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input type="email" autoComplete="new-email" className=" h-10 bg-orange-100 rounded-md shadow-md  p-2 focus:outline-none focus:ring-1 focus:ring-orange-500" placeholder="Enter Admin's email " value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type="password" autoComplete="new-password" className=" h-10 bg-orange-100 rounded-md shadow-md p-2 focus:outline-none focus:ring-1 focus:ring-orange-500" placeholder="Password " value={password} onChange={(e) => setPassword(e.target.value)} />
                     <input type="password" className=" h-10 bg-orange-100 rounded-md shadow-md p-2 focus:outline-none focus:ring-1 focus:ring-orange-500" placeholder="ConfirmPassword " value={cnfPassword} onChange={(e) => setCnfPassword(e.target.value)} />
                 </div>
                 <div className=" flex items-center justify-center bg-orange-500 hover:bg-orange-600  rounded-md shadow-lg mt-2">

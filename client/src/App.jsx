@@ -10,6 +10,7 @@ import Stucture from "./pages/structure"
 import LoginRegisterForm from "./pages/authentication"
 import AdminLogin from "./pages/adminLogin"
 import AddStudent from "./pages/sample"
+import ForgetPassword from "./pages/forgetPassword.jsx"
 const App = () => {
   const {userInfo , setUserInfo} = useStore() ;
 
@@ -53,10 +54,11 @@ const App = () => {
     <Routes>
       <Route path='/*' element={<RedirectIfAuthenticated><Stucture/></RedirectIfAuthenticated>} />
       <Route path="/login" element={<AlreadyLoggedIn><Login/></AlreadyLoggedIn>} />
+      <Route path="/forget-password" element={<AlreadyLoggedIn><ForgetPassword/></AlreadyLoggedIn>} />
       <Route path="/admin-login" element={<AlreadyLoggedIn><AdminLogin/></AlreadyLoggedIn>} />
       <Route path="/register" element={<AlreadyLoggedIn><Signup/></AlreadyLoggedIn>} />
       <Route path="/auth" element={<LoginRegisterForm/>}/>
-      <Route path="/x" element={<AddStudent/>}/>
+      
     </Routes>
     </BrowserRouter>
   )

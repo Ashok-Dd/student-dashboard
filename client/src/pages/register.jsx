@@ -74,7 +74,7 @@ const Signup = () => {
                         <div className="flex w-full gap-4 h-10">
                             <div className="w-[33%]">
                                 <select className="w-full h-full bg-gray-100 text-orange-500 px-4 rounded outline-none" value={year}  onChange={(e) => setYear(e.target.value)}>
-                                    <option disabled selected> Select Year</option>
+                                    <option value ="" selected> Select Year</option>
                                     <option value="1" >1st Year</option>
                                     <option value="2" >2nd Year</option>
                                     <option value="3" >3rd Year</option>
@@ -83,7 +83,7 @@ const Signup = () => {
                             </div>
                         <div className="w-[33%]">
                                 <select className="w-full h-full bg-gray-100 text-orange-500 px-4 rounded outline-none " value={branch} onChange={(e) => setBranch(e.target.value)} >
-                                    <option disabled selected>Branch</option>
+                                    <option value = " " selected>Branch</option>
                                     <option value="CSE">CSE</option>
                                     <option value="IT">IT</option>
                                     <option value="CSD">CSD</option>
@@ -95,7 +95,7 @@ const Signup = () => {
                         </div>
                         <div className="w-[33%]">
                                 <select className="w-full h-full bg-gray-100 text-orange-500 px-4 rounded outline-none " value={gender} onChange={(e) => setGender(e.target.value)} >
-                                    <option disabled selected>Gender</option>
+                                    <option value=" " selected>Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="other">Others</option>
@@ -106,14 +106,14 @@ const Signup = () => {
                             <div className="w-10 flex items-center justify-center text-orange-500">
                                 <User />
                             </div>
-                            <input type="email"placeholder="Enter your Email" className="flex-1 outline-none bg-gray-100 pl-2 text-orange-500 placeholder-orange-500" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <input type="email" autoComplete="new-email" placeholder="Enter your Email" className="flex-1 outline-none bg-gray-100 pl-2 text-orange-500 placeholder-orange-500" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
 
                         <div className="flex w-[100%] rounded overflow-hidden bg-gray-100 h-10">
                             <div className="w-10 flex items-center justify-center text-orange-500">
                                 <Lock />
                             </div>
-                            <input type="password" placeholder="Password" className="flex-1 outline-none bg-gray-100 pl-2 text-orange-500 placeholder-orange-500" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <input type="password" autoComplete='new-password' placeholder="Password" className="flex-1 outline-none bg-gray-100 pl-2 text-orange-500 placeholder-orange-500" value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         <div className="flex w-[100%] rounded overflow-hidden bg-gray-100 h-10">
                             <div className="w-10 flex items-center justify-center text-orange-500">
