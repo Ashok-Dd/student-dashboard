@@ -93,17 +93,22 @@ export const removeStudent = async(req , res) => {
 
 export const addStudent = async(req , res) => {
     try {
-        const {studentId , name , email , password , gender , year} = req.body
-        if (!name || !email || !password || !studentId || !gender || !year) {
+        const {studentId , name , email , password , gender , year , branch} = req.body
+        if (!name || !email || !password || !studentId || !gender || !year || !branch) {
             return res.status(400).json({ message: "All fields are required." });
         }
         const EmailIsExist = await Student.findOne({email});
+        const idIsExist = await Student.findOne({studentId});
         if(EmailIsExist){
             return res.status(400).json({message : "Email already Exists.."})
         }
+        if(idIsExist){
+            return res.status(400).json({message : "Student ID already Exists.."})
+        }   
+        
         const hashedPassword  = await bcrypt.hash(password , 10 )
         const user = await Student.create({
-            studentId ,name , email , password : hashedPassword , gender , year
+            studentId ,name , email , password : hashedPassword , gender , year , branch
         })
 
         return res.status(200).json({
@@ -161,8 +166,12 @@ export const Register = async (req , res) => {
             return res.status(400).json({ message: "All fields are required." });
         }
         const EmailIsExist = await Student.findOne({email});
+        const IdIsExist = await Student.findOne({studentId});
         if(EmailIsExist){
             return res.status(400).json({message : "Email already Exists.."})
+        }
+        if(IdIsExist){
+            return res.status(400).json({message : "Student Id already Exists.."})
         }
         const hashedPassword  = await bcrypt.hash(password , 10 )
         const user = await Student.create({

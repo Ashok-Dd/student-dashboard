@@ -139,7 +139,7 @@ const Courses = () => {
             <div>
                 <div className="flex justify-center items-center  w-full ">
                     <div className="flex items-center h-10 w-[75%] lg:w-[50%]  rounded-lg justify-center shadow-lg">
-                        <input type="text" className=" outline-none rounded-l-lg flex-1 h-full bg-orange-200 px-2  " placeholder="Search Courses ...." value={searchItem}  onChange={(e) => setSearchItem(e.target.value)} />
+                        <input type="text" className=" outline-none rounded-l-lg flex-1 h-full bg-orange-200 px-2  " autoComplete=" " placeholder="Search Courses ...." value={searchItem}  onChange={(e) => setSearchItem(e.target.value)} />
                         <button className="cursor-pointer rounded-r-lg h-full flex items-center justify-center w-[15%] sm:w-[7%] bg-orange-500 text-white"><SearchIcon/></button>
                     </div>
                 </div>
@@ -191,7 +191,7 @@ const Courses = () => {
                     <div className="flex items-center justify-center">
                         <div className="relative flex w-[50%] items-center justify-center">
                             <Lock className="absolute left-2  "/>
-                            <input type="password" className="border w-full rounded-md px-10 h-10 outline-none bg-orange-100 " value={password} onChange={(e) => setPassword(e.target.value)}/>
+                            <input type="password" className="border w-full rounded-md px-10 h-10 outline-none bg-orange-100 " autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                         </div>
                     </div>
 
@@ -214,7 +214,7 @@ const Courses = () => {
                     <div className="flex items-center justify-center">
                         <div className="relative flex w-[50%] items-center justify-center">
                             <Lock className="absolute left-2  "/>
-                            <input type="password" className="border w-full rounded-md px-10 h-10 outline-none bg-orange-100 " value={password} onChange={(e) => setPassword(e.target.value)}/>
+                            <input type="password" autoComplete="new-password" className="border w-full rounded-md px-10 h-10 outline-none bg-orange-100 " value={password} onChange={(e) => setPassword(e.target.value)}/>
                         </div>
                     </div>
 

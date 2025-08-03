@@ -4,14 +4,14 @@ import { Api } from '../API'
 import { useStore } from '../store'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import {toast} from 'react-toastify'
+import {toast} from  'react-toastify'
 
 const ForgetPassword = () => {
     const [email , setEmail] = useState('')
     const [otp , setOtp] = useState('') ;
     const [userEnteredOtp , setUserEnteredOtp] = useState('')
     const [isVerified , setIsVerified] = useState(false) ;
-    const {userInfo , setUserInfo} = useStore()
+    const { setUserInfo} = useStore()
     const [password , setPassword] = useState('') ;
     const [cnfPassword , setCnfPassword] = useState('');
     const nav = useNavigate()
@@ -59,7 +59,7 @@ const ForgetPassword = () => {
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.message) ;
+            toast.error(error?.response?.data?.message || "Something went wrong") ;
         }
     }
 
@@ -67,7 +67,7 @@ const ForgetPassword = () => {
 
     return (
          <> 
-             <div className="h-screen flex-col w-full bg-gray-100 flex justify-center  items-center">
+             <div className="h-screen w-full bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center" style={{ backgroundImage: "url('/bgimg4.jpg')" }}>
                {!otp && (<form onSubmit={sendMail}  className="container relative h-[280px] w-full sm:w-[50%] lg:w-[25%] flex flex-col border-2 border-orange-500 items-center justify-evenly rounded-xl shadow-xl  bg-orange-100 " >
                 <div className=" absolute top-[-60px] logo w-[120px] h-[120px] bg-orange-100 rounded-full  border-t-2 border-orange-500 " >
                     <div className='w-full h-full  flex items-center justify-center text-orange-500'>
@@ -143,7 +143,7 @@ const ForgetPassword = () => {
                 </div>
                     
                 <div className='mb-10 w-[75%] h-10  ' >
-                    <button className='w-full cursor-pointer bg-orange-500  shadow-xl h-full text-xl uppercase text-white hover:bg-orange-600  rounded-full ' type="submit">Send code</button>
+                    <button className='w-full cursor-pointer bg-orange-500  shadow-xl h-full text-xl uppercase text-white hover:bg-orange-600  rounded-full ' type="submit">Reset password</button>
                 </div>
                  
                </form>)}
