@@ -20,10 +20,12 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(cors({
-    //  origin : 'https://student-dashboard-two-sandy.vercel.app' ,
-    origin : "http://localhost:5173" ,
+     origin : 'https://student-dashboard-two-sandy.vercel.app' ,
+    // origin : "http://localhost:5173" ,
     credentials : true
 }))
+app.set("trust proxy", 1);
+
 
 app.use('/auth' , router)
 app.use('/admin' , adminRouter)
