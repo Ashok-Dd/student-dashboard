@@ -23,8 +23,8 @@ const Login = () => {
             const response = await axios.post(Api + '/auth/login' , {email , password} , {withCredentials : true});
             if(response.data.success) {
                 const data = response.data ;
-                setUserInfo(data)
-                console.log(userInfo)
+
+                setUserInfo(data.user)
                 toast.success(data.message)
                 nav('/')
                 

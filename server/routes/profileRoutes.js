@@ -3,7 +3,10 @@ import { getStudentById, isAcademicInfoUpdated, isPersonalInfoUpdated, RemovePro
 import multer from "multer";
 import { verifyToken } from "../middlewares/verifyToken.js";
 const profileRoutes = Router() ;
-const upload = multer({limits : {fileSize : 1024 * 1000}})
+const upload = multer({
+  limits: { fileSize: 50 * 1024 * 1024 } // 50 MB
+});
+
 
 profileRoutes.post('/upload-profile', verifyToken , upload.single('profile') , uploadProfile);
 profileRoutes.put('/remove-profile' , verifyToken , RemoveProfile)
