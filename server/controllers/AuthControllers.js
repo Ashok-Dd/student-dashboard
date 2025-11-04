@@ -22,7 +22,7 @@ export const adminLogin = async(req , res) => {
             }
             const token = jwt.sign({userId : user._id} , process.env.JWT_SECRET , {expiresIn: '24h'})
             res.cookie('authToken' , token , {
-                sameSite: 'strict',
+                sameSite: 'None',
                 httponly: true ,
                 maxAge : 24 * 60 * 60 * 1000 ,
                 secure : process.env.NODE_ENV === "production"
@@ -57,12 +57,12 @@ export const adminRegister = async (req , res) => {
             name , email , password : hashedPassword 
         })
         const token = jwt.sign({userId : user._id} , process.env.JWT_SECRET  , {expiresIn : '24h'})
-        res.cookie("authToken" , token , {
-            httponly : true ,
-            sameSite : 'strict' ,
-            maxAge : 24 * 60 * 60 * 1000 ,
-            secure : process.env.NODE_ENV === 'production'
-        })
+        res.cookie('authToken' , token , {
+                sameSite: 'None',
+                httponly: true ,
+                maxAge : 24 * 60 * 60 * 1000 ,
+                secure : process.env.NODE_ENV === "production"
+            })
 
         return res.status(200).json({
             success : true ,
@@ -141,7 +141,7 @@ export const Login = async(req , res) => {
             }
             const token = jwt.sign({userId : user._id} , process.env.JWT_SECRET , {expiresIn: '24h'})
             res.cookie('authToken' , token , {
-                sameSite: 'strict',
+                sameSite: 'None',
                 httponly: true ,
                 maxAge : 24 * 60 * 60 * 1000 ,
                 secure : process.env.NODE_ENV === "production"
@@ -178,12 +178,12 @@ export const Register = async (req , res) => {
             studentId ,name , email , password : hashedPassword , gender , year , branch
         })
         const token = jwt.sign({userId : user._id} , process.env.JWT_SECRET  , {expiresIn : '24h'})
-        res.cookie("authToken" , token , {
-            httponly : true ,
-            sameSite : 'strict' ,
-            maxAge : 24 * 60 * 60 * 1000 ,
-            secure : process.env.NODE_ENV === 'production'
-        })
+        res.cookie('authToken' , token , {
+                sameSite: 'None',
+                httponly: true ,
+                maxAge : 24 * 60 * 60 * 1000 ,
+                secure : process.env.NODE_ENV === "production"
+            })
 
         return res.status(200).json({
             success : true ,
