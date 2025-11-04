@@ -14,7 +14,7 @@ const Login = () => {
 
 
     const handleLogin = async(e) => {
-        e.preventDefault()
+        e.preventDefault() 
         if (!email || !password) {
             toast.error("Please fill all feilds ...")
             return;
@@ -44,9 +44,10 @@ const Login = () => {
     
 
     return (
-         <> 
-             <div className="h-screen flex-col w-full bg-gray-100 flex justify-center  items-center">
-               <form onSubmit={handleLogin} className="container relative h-[350px] w-full sm:w-[50%] lg:w-[25%] flex flex-col border-2 border-orange-500 items-center justify-evenly rounded-xl shadow-xl  bg-orange-100 " >
+         <>
+          <div className="h-screen w-full bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center" style={{ backgroundImage: "url('/bgimg4.jpg')" }}>
+         
+            <form onSubmit={handleLogin} className="container relative h-[350px] w-full sm:w-[50%] lg:w-[25%] flex flex-col border-2 border-orange-500 items-center justify-evenly rounded-xl shadow-xl  bg-orange-100 " >
                 <div className=" absolute top-[-60px] logo w-[120px] h-[120px] bg-orange-100 rounded-full  border-t-2 border-orange-500 " >
                     <div className='w-full h-full  flex items-center justify-center text-orange-500'>
                         <User2 className='w-[70%] h-[70%]'/>

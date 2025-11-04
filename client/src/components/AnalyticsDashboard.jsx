@@ -10,13 +10,6 @@ import { toast } from "react-toastify";
 
 
 
-
-
-const genderData = [
-  { name: "Male", value: 210 },
-  { name: "Female", value: 160 },
-];
-
 const COLORS = ["#f97316", "#34d399", "#60a5fa"]; // Orange, Green, Blue
 
 

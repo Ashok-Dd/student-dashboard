@@ -9,7 +9,6 @@ import Signup from "./pages/register"
 import Stucture from "./pages/structure"
 import LoginRegisterForm from "./pages/authentication"
 import AdminLogin from "./pages/adminLogin"
-import AddStudent from "./pages/sample"
 import ForgetPassword from "./pages/forgetPassword.jsx"
 const App = () => {
   const {userInfo , setUserInfo} = useStore() ;

@@ -46,7 +46,7 @@ const Signup = () => {
 
     return (
         <>
-            <div className="h-screen w-full flex flex-col justify-center items-center bg-white">
+            <div className="h-screen w-full bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center" style={{ backgroundImage: "url('/bgimg4.jpg')" }}>
                 <form onSubmit={handleRegister} className="container border-2 border-orange-500 relative h-[500px] sm:h-[72%] w-full sm:w-[50%] lg:w-[40%] flex flex-col gap-3 items-center justify-evenly rounded-xl shadow-2xl bg-orange-100">
                     <div className="absolute top-[-65px] logo w-[120px] h-[120px] border-t-2 border-orange-500 bg-orange-100 rounded-full">
                         <div className='w-full h-full flex items-center justify-center text-orange-500'>

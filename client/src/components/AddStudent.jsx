@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Lock, User, User2 } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Api } from "../API";
 
@@ -14,7 +13,6 @@ const AddStudent = () => {
     const [password, setPassword] = useState('');
     const [cnfPassword, setCnfPassword] = useState('');
     const [gender, setGender] = useState('');
-    const nav = useNavigate();
 
     const handleRegister = async(e) => {
         e.preventDefault();
@@ -40,7 +38,7 @@ const AddStudent = () => {
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.message)
+            toast.error(error?.response?.data?.message || "Something went wrong")
         }
     };
 

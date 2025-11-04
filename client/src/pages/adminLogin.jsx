@@ -42,7 +42,7 @@ const AdminLogin = () => {
 
     return (
         <>
-            <div className="h-screen flex-col w-full bg-gray-100 flex justify-center  items-center">
+ <div className="h-screen w-full bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center" style={{ backgroundImage: "url('/bgimg4.jpg')" }}>
                 <div className="absolute top-4 left-4 text-orange-800" >
                     <button className="cursor-pointer" onClick={() => nav('/login')}><ArrowLeft /></button>
                 </div>
