@@ -34,7 +34,6 @@ const Signup = () => {
                 setUserInfo(data) 
                 console.log(userInfo);
                 toast.success(data.message)
-                window.location.reload()
                 nav('/')
             }
         } catch (error) {

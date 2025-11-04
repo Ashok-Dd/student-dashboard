@@ -26,7 +26,6 @@ const Login = () => {
                 setUserInfo(data)
                 console.log(userInfo)
                 toast.success(data.message)
-                window.location.reload()
                 nav('/')
                 
             }
