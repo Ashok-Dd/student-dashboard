@@ -12,9 +12,7 @@ export const verifyToken = async (req , res , next) => {
         }
         req.userId = payload.userId
         next();
-        
     } catch (error) {
         return res.status(500).json({message : "Server issue.." ,})
     }
-
 }

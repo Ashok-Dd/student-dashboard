@@ -35,7 +35,6 @@ server.listen(PORT , () => {
     console.log(`Server running at ${PORT}`);
 })
 
-
-mongoose.connect('mongodb://localhost:27017/StudentDB')
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('Connected to DB'))
 .catch(() => console.log("Failed  to connect to DB"))

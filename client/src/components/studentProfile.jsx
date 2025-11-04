@@ -8,9 +8,14 @@ import { toast } from "react-toastify";
 
 const StudentProfile = () => {
   const [student, setStudent] = useState(null);
+
+  
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const studentId = searchParams.get("id");
+
+
+
   const [openPersonal , setOpenPersonal] = useState(true) ;
   const [courses , setCourses] = useState([])
   const [openRemoveDialog ,setOpenRemoveDialog] = useState(false)

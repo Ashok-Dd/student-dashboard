@@ -3,7 +3,7 @@ import { useStore } from '../store';
 import img from '/5.jpg';
 import { useNavigate } from 'react-router-dom';
 
-const Profile = () => {
+const   Profile = () => {
     const { userInfo } = useStore();
     const nav = useNavigate()
 
