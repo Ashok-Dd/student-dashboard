@@ -1,67 +1,130 @@
-import { Mail, User } from 'lucide-react';
+import { Mail, User, MapPin, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { Api } from "../API";
 import { toast } from 'react-toastify';
-import axios from 'axios'
+import axios from 'axios';
+import { motion } from 'framer-motion';
 
 const ContactUs = () => {
-
-  const [name , setName] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [message , setMessage] = useState('');
-  const [loading , setLoading] = useState(false)
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const AdminMail = 'eduportal@gmail.com'
+  const AdminMail = 'eduportal@gmail.com';
 
-  const handleContactUs = async(e) => {
-    e.preventDefault() ;
+  const handleContactUs = async (e) => {
+    e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post(Api + "/auth/contact-us" , {name , email , message} , {withCredentials : true });
+      const response = await axios.post(Api + "/auth/contact-us", { name, email, message }, { withCredentials: true });
 
-      if(response.data.success) {
-        toast.success(response.data.message) ;
+      if (response.data.success) {
+        toast.success(response.data.message);
         setName('');
         setEmail('');
         setMessage('');
       }
-      setLoading(false);
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message || "Something went wrong") ;
-      setLoading(false) ; 
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
-
-  }
+  };
 
   return (
-    <div className="h-screen w-full bg-orange-100 overflow-y-auto flex flex-col gap-10 items-center justify-start">
-      <h2 className="text-orange-800 font-bold text-4xl capitlize p-7">Contact Us</h2>
-      <div className="h-full w-[100%] sm:w-[70%] md:w-[50%] lg:w-[40%] shadow-xl flex flex-col bg-orange-200 justify-center items-center rounded-xl p-6">
-        <form onSubmit={handleContactUs} className="w-full flex flex-col gap-6">
-            <div className='flex items-center mt-5 gap-3 bg-gray-100 rounded-md p-2'>
-                <User className="text-orange-500" />
-                <input type="text"placeholder="Enter your name"className="flex-1 outline-none bg-gray-100  text-orange-500 placeholder-orange-500" value={name} onChange={(e) => setName(e.target.value )} />
-            </div>
-            <div className='flex items-center gap-3 bg-gray-100 rounded-md p-2'>
-              <Mail className="text-orange-500" />
-                <input type="email" autoComplete="new-email" placeholder="Enter your email"className="flex-1 outline-none bg-gray-100 text-orange-500 placeholder-orange-500" value={email} onChange={(e) => setEmail(e.target.value )}/>
-            </div>
-          <textarea placeholder="Your message"rows="4"className="w-full outline-none bg-gray-100 text-orange-500 placeholder-orange-500 p-2 rounded-md" value={message} onChange={(e) => setMessage(e.target.value )} />  
-          <button type="submit" className={`bg-orange-400 hover:bg-orange-600 text-white font-semibold py-2 px-4 mt-5 w-[100%] rounded-full transition duration-300 flex items-center justify-center `} disabled={loading}  >{loading ? <div className='w-5 h-5 rounded-full border-t-2 animate-spin '></div> : "Submit"}</button>
+    <div className="min-h-screen w-full bg-gradient-to-b from-orange-50 to-orange-100 flex flex-col items-center py-10 px-4 overflow-y-auto">
+      {/* Heading */}
+      <motion.h2
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-4xl sm:text-5xl font-extrabold text-orange-800 mb-8"
+      >
+        Contact <span className="text-orange-600">Us</span>
+      </motion.h2>
+
+      {/* Contact Form */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white/80 backdrop-blur-lg shadow-2xl border border-orange-300 rounded-2xl p-6 sm:p-10 w-full max-w-md sm:max-w-lg"
+      >
+        <form onSubmit={handleContactUs} className="flex flex-col gap-5">
+          <div className="flex items-center gap-3 bg-gray-100 rounded-md p-2">
+            <User className="text-orange-500" />
+            <input
+              type="text"
+              placeholder="Enter your name"
+              className="flex-1 outline-none bg-gray-100 text-orange-600 placeholder-orange-500"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="flex items-center gap-3 bg-gray-100 rounded-md p-2">
+            <Mail className="text-orange-500" />
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 outline-none bg-gray-100 text-orange-600 placeholder-orange-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <textarea
+            placeholder="Your message"
+            rows="5"
+            className="w-full outline-none bg-gray-100 text-orange-600 placeholder-orange-500 p-3 rounded-md resize-none"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          />
+
+          <button
+            type="submit"
+            className={`bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300 flex items-center justify-center`}
+            disabled={loading}
+          >
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              "Send Message"
+            )}
+          </button>
         </form>
-      </div>
-      <div className='flex flex-col items-center justify-center pb-5'>
-        <h2 className="text-3xl font-bold flex justify-center items-center text-orange-800 p-6 ">Contact Information</h2>
-        <h3 className='text-black '> <span className='font-bold text-lg text-black'>Email:</span> {AdminMail}</h3>
-       <h3 className='text-black '> <span className='font-bold text-lg text-black'>Phone:</span> +91 1234567890</h3>
-       <h3 className='text-black '> <span className='font-bold text-lg text-black'>Address:</span>123, Bhimavaram, Andhra pradesh, India </h3>
+      </motion.div>
 
+      {/* Contact Info Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="mt-12 text-center space-y-3"
+      >
+        <h2 className="text-3xl font-bold text-orange-800 mb-4">Get in Touch</h2>
+        <div className="flex flex-col items-center gap-3 text-orange-900 text-base sm:text-lg">
+          <p className="flex items-center gap-2">
+            <Mail className="text-orange-600" size={20} /> <span>{AdminMail}</span>
+          </p>
+          <p className="flex items-center gap-2">
+            <Phone className="text-orange-600" size={20} /> <span>+91 12345 67890</span>
+          </p>
+          <p className="flex items-center gap-2">
+            <MapPin className="text-orange-600" size={20} /> <span>123, Bhimavaram, Andhra Pradesh, India</span>
+          </p>
+        </div>
+      </motion.div>
 
+      {/* Footer */}
+      <div className="mt-10 text-sm text-orange-700">
+        © {new Date().getFullYear()} EduPortal — All Rights Reserved.
       </div>
-       
-     
     </div>
   );
 };

@@ -68,20 +68,7 @@ const Home = () => {
         <p className="text-sm text-gray-600">Track your progress and grow with consistency!</p>
       </div>
 
-      {/* <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-6">
-        <div className="w-full md:w-1/3 h-[150px] bg-green-200 hover:bg-green-300 transition rounded-xl shadow-md flex flex-col justify-center items-center cursor-pointer" onClick={() => nav('/courses')} >
-          <BookOpen size={32} className="text-green-700 mb-2" />
-          <span className="text-lg font-semibold text-green-800">Courses</span>
-        </div>
-        <div className="w-full md:w-1/3 h-[150px] bg-yellow-200 hover:bg-yellow-300 transition rounded-xl shadow-md flex flex-col justify-center items-center cursor-pointer">
-          <GraduationCap size={32} className="text-yellow-700 mb-2" />
-          <span className="text-lg font-semibold text-yellow-800">Academic Status</span>
-        </div>
-        <div className="w-full md:w-1/3 h-[150px] bg-blue-200 hover:bg-blue-300 transition rounded-xl shadow-md flex flex-col justify-center items-center cursor-pointer" >
-          <UploadCloud size={32} className="text-blue-700 mb-2" />
-          <span className="text-lg font-semibold text-blue-800">Upload Resume</span>
-        </div>
-      </div> */}
+      
 
      <div className="flex flex-col lg:flex-row   lg:items-start gap-6 mt-10">
         <div className="flex-1 bg-white rounded-xl shadow-md p-4">

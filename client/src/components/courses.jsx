@@ -1,233 +1,323 @@
-import { ArrowDown, ArrowUp, Lock, SearchIcon , X } from "lucide-react";
-import img from '/1.jpg'
+import {
+  ArrowDown,
+  ArrowUp,
+  Lock,
+  SearchIcon,
+  X,
+  Loader2,
+  BookOpen,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useStore } from "../store";
-import {toast} from 'react-toastify'
-import axios from 'axios'
+import { toast } from "react-toastify";
+import axios from "axios";
 import { Api } from "../API";
+
 const Courses = () => {
+  const [courses, setCourses] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [loading, setLoading] = useState(true);
+  const [openCnf1, setOpenCnf1] = useState({ course: "", state: false });
+  const [openCnf2, setOpenCnf2] = useState({ course: "", state: false });
+  const [password, setPassword] = useState("");
+  const { userInfo } = useStore();
+  const [searchItem, setSearchItem] = useState("");
 
-
-    const [courses , setCourses] = useState([])
-
-
-    const [visibleCount , setVisibleCount] = useState(5);
-    const [openCnf1 , setOpenCnf1] = useState({title:"" , state: false})
-    const [openCnf2 , setOpenCnf2] = useState({title:"" , state: false})
-    const [password , setPassword] = useState('')
-    const {userInfo} = useStore()
-    const [searchItem , setSearchItem] = useState('')
-
-    const getCourses = async() => {
-        try {
-            const response = await axios.get(Api + '/course/get-all-courses');
-            if(response.data.success){
-                setCourses(response.data.courses)
-            }
-        } catch (error) {
-            toast.error(error.message)
-        }
+  const getCourses = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(Api + "/course/get-all-courses");
+      if (response.data.success) {
+        setCourses(response.data.courses);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    useEffect(() => {     
-    getCourses()
-    } , [])
+  useEffect(() => {
+    getCourses();
+  }, []);
 
-    const handleViewMore = () => {
-        if (visibleCount >= courses.length){
-            return
-        }
-        setVisibleCount((prev) => prev + 6)
+  const handleEnroll = (course) => setOpenCnf1({ course, state: true });
+  const handleRemove = (course) => setOpenCnf2({ course, state: true });
+
+  const handleVerifyPassword = async (password) => {
+    try {
+      const response = await axios.post(
+        Api + "/auth/validate-password",
+        { email: userInfo.email, password },
+        { withCredentials: true }
+      );
+      if (response.data.success) {
+        const enrolmentResponse = await axios.post(
+          Api + "/course/enroll-student",
+          { courseId: openCnf1.course._id },
+          { withCredentials: true }
+        );
+        if (enrolmentResponse.data.success)
+          toast.success("Successfully enrolled to: " + openCnf1.course.title);
+        else toast.error(enrolmentResponse.data.message);
+        setOpenCnf1({ title: "", state: false });
+        setPassword("");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
+  };
 
-    const handleViewLess = () => {
-        if(visibleCount < 6) {
-            return ;
-        }
-        setVisibleCount((prev) => prev - 6)
+  const handleRemoveCourse = async (password) => {
+    try {
+      const response = await axios.post(
+        Api + "/auth/validate-password",
+        { email: userInfo.email, password },
+        { withCredentials: true }
+      );
+      if (response.data.success) {
+        const removeResponse = await axios.post(
+          Api + "/course/remove",
+          { courseId: openCnf2.course._id },
+          { withCredentials: true }
+        );
+        if (removeResponse.data.success) {
+          toast.success("Removed: " + openCnf2.course.title);
+          getCourses();
+        } else toast.error(removeResponse.data.message);
+        setOpenCnf2({ title: "", state: false });
+        setPassword("");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
+  };
 
-    const handleEnroll = (course) => {
-        setOpenCnf1({course: course , state:true})
-    }
+  const getCourseStatus = (startDate, endDate) => {
+    const today = new Date();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    if (today < start) return "Not Started";
+    if (today >= start && today <= end) return "Ongoing";
+    return "Ended";
+  };
 
-    const handleRemove = (course) => {
-        setOpenCnf2({course: course , state:true})
-    }
+  const filteredCourses = courses.filter((c) =>
+    c.title.toLowerCase().includes(searchItem.toLowerCase())
+  );
 
-    const handleVerifyPassword = async(password) => {
-        try {
-            const response = await axios.post(Api + "/auth/validate-password" , {email : userInfo.email , password} , {withCredentials : true})
-            if (response.data.success){
-                try {
-                    const enrolmentResponse = await axios.post(Api + "/course/enroll-student" , {courseId : openCnf1.course._id} , {withCredentials:true});
-                    if(enrolmentResponse.data.success){
-                        toast.success("Sucessfully enrolled to : " + openCnf1.course.title)
-                    }
-                    else{
-                        toast.error(enrolmentResponse.data.message)
-                    }
-                    setOpenCnf1({title: '' , state: false})
-                    setPassword('')
+  return (
+    <div className="bg-orange-50 h-screen overflow-y-auto flex flex-col items-center pb-10">
+      <h1 className="text-3xl sm:text-4xl font-bold text-orange-700 mt-10 mb-5">
+        Courses
+      </h1>
 
-                } catch (error) {
-                    console.log(error);
-                    toast.error(error.message)
-                }
-            }
-            else{
-                toast.error(response.data.message);
-                setPassword('')
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error.message)
-        }
-    }
+      {/* Search Bar */}
+      <div className="w-[90%] sm:w-[70%] md:w-[50%] flex mb-6 shadow-lg rounded-lg overflow-hidden">
+        <input
+          type="text"
+          placeholder="Search courses..."
+          value={searchItem}
+          onChange={(e) => setSearchItem(e.target.value)}
+          className="flex-1 px-4 py-3 outline-none bg-orange-100 text-orange-800 placeholder-orange-500"
+        />
+        <button className="bg-orange-500 px-4 flex items-center justify-center text-white hover:bg-orange-600 transition">
+          <SearchIcon />
+        </button>
+      </div>
 
-    const handleRemoveCourse = async(password) => {
-        try {
-            const response = await axios.post(Api + "/auth/validate-password" , {email : userInfo.email , password} , {withCredentials : true})
-            if (response.data.success){
-                try {
-                    const removeResponse = await axios.post(Api + "/course/remove" , {courseId : openCnf2.course._id} , {withCredentials:true});
-                    if(removeResponse.data.success){
-                        toast.success("Sucessfully Removed  : " + openCnf2.course.title)
-                        getCourses()
-                    }
-                    else{
-                        toast.error(removeResponse.data.message)
-                    }
-                    setOpenCnf2({title: '' , state: false})
-                    setPassword('')
-
-                } catch (error) {
-                    console.log(error);
-                    toast.error(error.message)
-                }
-            }
-            else{
-                toast.error(response.data.message);
-                setPassword('')
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error.message)
-        }
-    }
-
-    const getCourseStatus = (startDate, endDate) => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        start.setHours(0, 0, 0, 0);
-        end.setHours(0, 0, 0, 0);
-
-        if (today < start) return "Not Started";
-        if (today >= start && today <= end) return "Ongoing";
-        return "Ended";
-    };
-
-
-    return (
-        <div className="bg-orange-100 flex flex-col gap-10 w-full h-screen overflow-y-auto">
-           <div className="w-full text-center  mt-8 text-4xl sm:text-5xl  font-bold text-orange-800 ">
-                <span>Courses</span>
-           </div>
-            <div>
-                <div className="flex justify-center items-center  w-full ">
-                    <div className="flex items-center h-10 w-[75%] lg:w-[50%]  rounded-lg justify-center shadow-lg">
-                        <input type="text" className=" outline-none rounded-l-lg flex-1 h-full bg-orange-200 px-2  " autoComplete=" " placeholder="Search Courses ...." value={searchItem}  onChange={(e) => setSearchItem(e.target.value)} />
-                        <button className="cursor-pointer rounded-r-lg h-full flex items-center justify-center w-[15%] sm:w-[7%] bg-orange-500 text-white"><SearchIcon/></button>
-                    </div>
-                </div>
-            </div>
-            <div className="flex flex-col gap-5 flex-1">
-                <div className="w-full  flex flex-col flex-1 ">
-                    <div className="flex justify-evenly flex-wrap space-y-5 flex-1 mb-0 px-4 ">
-                        {courses.map((course,index) => {
-                            const status = getCourseStatus(course.startDate, course.endDate);
-                            return(
-                                <div key={index} className={`${course.title.toLowerCase().includes(searchItem.toLowerCase()) ? "" : "hidden"} group relative w-[100%] rounded-xl bg-orange-200 sm:w-[370px] h-[320px] sm:h-[350px] shadow-md flex flex-col ${index > visibleCount && !searchItem ? "hidden" : "block"}`}>
-                                    <img src={typeof course.poster === "string" && !course.poster.startsWith("http")? `data:image/png;base64,${course.poster}`: course.poster} alt="" className="rounded-t-xl h-[250px] w-full object-cover" />
-                                    <p className="text-center  flex items-center justify-center text-orange-800 font-bold text-xl capitalize">{course.title.length > 25 ? course.title.slice(0, 25) + "..." : course.title}</p>
-                                    <p className="text-center text-orange-800">Instructor :<span className="text-orange-500"> {course.instructor}</span></p>
-                                    <p className="text-orange-800 text-center">From : <span className="text-orange-500">{new Date(course.startDate).toLocaleDateString("en-GB")}</span>  To : <span className="text-orange-500">{new Date(course.endDate).toLocaleDateString("en-GB")}</span></p>
-                                    <p className="text-center text-sm font-semibold text-orange-700">Status: <span className={`font-bold ${status === 'Ended' ? 'text-red-500' : status === 'Ongoing' ? 'text-green-600' : 'text-blue-500'} `}>{status}</span>
-                                        </p>
-                                    <div className="absolute inset-0 bg-black/60 gap-5 rounded-xl flex flex-col  items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <button className={`bg-white text-orange-600 font-semibold px-6 py-2 rounded-full shadow-md hover:bg-orange-500 hover:text-white transition ${userInfo.isAdmin ? "" : "hidden"} `} onClick={() => handleRemove(course)} >Remove course</button>
-                                        <button className={`bg-white text-orange-600 font-semibold px-6 py-2 rounded-full shadow-md hover:bg-orange-500 hover:text-white transition ${userInfo.isAdmin ? "hidden" : ""} `} onClick={() => handleEnroll(course)} >Enroll Now</button>
-                                    </div>
-                                </div>
-
-                            )})}
-                    </div>
-                    <div className={`flex gap-10 justify-evenly items-center  ${searchItem ? "hidden" : ""} `}>
-                        <div className={`text-center cursor-pointer py-1 mx-auto rounded-xl flex items-center justify-center text-white animate-bounce w-[80%] bg-black/30 ${visibleCount >= courses.length - 1 ? "hidden" : ""} `} onClick={handleViewMore} >
-                            <button className="cursor-pointer">View more</button>
-                            <ArrowDown/>
-                        </div>
-
-                        <div className={`text-center cursor-pointer py-1 mx-auto rounded-xl flex items-center justify-center text-white animate-bounce w-[80%] bg-black/30 ${visibleCount == 5 ? "hidden" : ""} `} onClick={handleViewLess} >
-                            <button className="cursor-pointer">View Less</button>
-                            <ArrowUp/>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            {openCnf1.state && (
-                <div className="fixed z-60  inset-0 bg-black/70 flex items-center justify-center ">
-                <div className="w-[100%] relative sm:w-[80%] md:w-[50%] lg:w-[30%] bg-orange-200 rounded-lg flex flex-col gap-4 shadow-md h-[200px]  ">
-                    <div className=" py-2 px-6 border-b-2 border-red-500">
-                        <h2 className="text-red-500  text-xl font-bold uppercase text-center">Confirmation</h2>
-                    </div>
-                    <div className="flex flex-col items-center justify-center text-orange-800">
-                        <h2 className="text-md">*Please enter your password to Enroll the course </h2><span className="font-bold text-xl ">{openCnf1.title}</span>
-                    </div>
-                    <div className="flex items-center justify-center">
-                        <div className="relative flex w-[50%] items-center justify-center">
-                            <Lock className="absolute left-2  "/>
-                            <input type="password" className="border w-full rounded-md px-10 h-10 outline-none bg-orange-100 " autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                        </div>
-                    </div>
-
-                    <button className="bg-orange-500 rounded-b-lg text-orange-100 h-10 hover:bg-orange-400 bottom-0" onClick={() => handleVerifyPassword(password)} >Verify</button>
-
-                <div className="absolute top-3 right-3 text-orange-800 cursor-pointer" onClick={() => setOpenCnf1({title: "" , state : false})} >
-                    <X/>
-                </div>
-                </div>
-            </div>)}
-
-            {openCnf2.state && (<div className="fixed z-60  inset-0 bg-black/70 flex items-center justify-center ">
-                <div className="w-[100%] relative sm:w-[80%] md:w-[50%] lg:w-[30%] bg-orange-200 rounded-lg flex flex-col gap-4 shadow-md h-[200px]  ">
-                    <div className=" py-2 px-6 border-b-2 border-red-500">
-                        <h2 className="text-red-500  text-xl font-bold uppercase text-center">Confirmation</h2>
-                    </div>
-                    <div className="flex flex-col items-center justify-center text-orange-800">
-                        <h2 className="text-md">*Please enter your password to Remove the course </h2><span className="font-bold text-xl ">{openCnf2.course.title}</span>
-                    </div>
-                    <div className="flex items-center justify-center">
-                        <div className="relative flex w-[50%] items-center justify-center">
-                            <Lock className="absolute left-2  "/>
-                            <input type="password" autoComplete="new-password" className="border w-full rounded-md px-10 h-10 outline-none bg-orange-100 " value={password} onChange={(e) => setPassword(e.target.value)}/>
-                        </div>
-                    </div>
-
-                    <button className="bg-orange-500 rounded-b-lg text-orange-100 h-10 hover:bg-orange-400 bottom-0" onClick={() => handleRemoveCourse(password)} >Verify</button>
-
-                <div className="absolute top-3 right-3 text-orange-800 cursor-pointer" onClick={() => setOpenCnf2({title: "" , state : false})} >
-                    <X/>
-                </div>
-                </div>
-            </div>)}
-
+      {/* Loading skeleton */}
+      {loading && (
+        <div className="flex flex-wrap justify-center gap-5 w-full px-4">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="bg-orange-200 animate-pulse rounded-xl w-[90%] sm:w-[320px] h-[330px]"
+            ></div>
+          ))}
         </div>
-    )
-}
+      )}
 
-export default Courses ;
+      {/* Empty State */}
+      {!loading && filteredCourses.length === 0 && (
+        <div className="flex flex-col items-center mt-20 text-center text-orange-700">
+          <BookOpen size={60} className="mb-4 text-orange-400" />
+          <p className="text-xl font-semibold">No courses found!</p>
+          <p className="text-orange-500 text-sm">
+            Try searching with a different keyword.
+          </p>
+        </div>
+      )}
+
+      {/* Courses List */}
+      <div className="flex flex-wrap justify-center gap-5 px-4 w-full">
+        {!loading &&
+          filteredCourses.slice(0, visibleCount).map((course, index) => {
+            const status = getCourseStatus(course.startDate, course.endDate);
+            return (
+              <div
+                key={index}
+                className="relative group bg-white rounded-2xl shadow-md hover:shadow-xl w-[90%] sm:w-[320px] overflow-hidden transition-all duration-300"
+              >
+                <img
+                  src={
+                    typeof course.poster === "string" &&
+                    !course.poster.startsWith("http")
+                      ? `data:image/png;base64,${course.poster}`
+                      : course.poster
+                  }
+                  className="h-[200px] w-full object-cover"
+                  alt={course.title}
+                />
+                <div className="p-4 text-center text-orange-800">
+                  <h3 className="font-bold text-lg capitalize mb-1">
+                    {course.title.length > 25
+                      ? course.title.slice(0, 25) + "..."
+                      : course.title}
+                  </h3>
+                  <p className="text-sm">
+                    Instructor:{" "}
+                    <span className="text-orange-600 font-medium">
+                      {course.instructor}
+                    </span>
+                  </p>
+                  <p className="text-sm mt-1">
+                    {new Date(course.startDate).toLocaleDateString("en-GB")} –{" "}
+                    {new Date(course.endDate).toLocaleDateString("en-GB")}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold">
+                    Status:{" "}
+                    <span
+                      className={`${
+                        status === "Ended"
+                          ? "text-red-500"
+                          : status === "Ongoing"
+                          ? "text-green-600"
+                          : "text-blue-500"
+                      }`}
+                    >
+                      {status}
+                    </span>
+                  </p>
+                </div>
+
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-4 transition-opacity duration-300">
+                  {userInfo.isAdmin ? (
+                    <button
+                      className="bg-white px-6 py-2 rounded-full text-orange-600 font-semibold hover:bg-orange-500 hover:text-white transition"
+                      onClick={() => handleRemove(course)}
+                    >
+                      Remove Course
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-white px-6 py-2 rounded-full text-orange-600 font-semibold hover:bg-orange-500 hover:text-white transition"
+                      onClick={() => handleEnroll(course)}
+                    >
+                      Enroll Now
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+      </div>
+
+      {/* View more / less */}
+      {!loading && courses.length > 6 && !searchItem && (
+        <div className="flex gap-8 mt-10">
+          {visibleCount < courses.length && (
+            <button
+              className="flex items-center gap-2 bg-orange-500 text-white px-6 py-2 rounded-full shadow-md hover:bg-orange-600 transition animate-bounce"
+              onClick={() => setVisibleCount((p) => p + 6)}
+            >
+              View More <ArrowDown />
+            </button>
+          )}
+          {visibleCount > 6 && (
+            <button
+              className="flex items-center gap-2 bg-orange-400 text-white px-6 py-2 rounded-full shadow-md hover:bg-orange-500 transition animate-bounce"
+              onClick={() => setVisibleCount((p) => p - 6)}
+            >
+              View Less <ArrowUp />
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Confirmation Modals */}
+      {[openCnf1, openCnf2].map((cnf, idx) => {
+        if (!cnf.state) return null;
+        const isEnroll = idx === 0;
+        return (
+          <div
+            key={idx}
+            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4"
+          >
+            <div className="bg-orange-100 rounded-xl shadow-lg w-full max-w-md relative animate-fade-in">
+              <div className="border-b-2 border-orange-500 py-3 text-center">
+                <h2 className="text-xl font-bold text-orange-600 uppercase">
+                  Confirmation
+                </h2>
+              </div>
+              <div className="p-6 text-center text-orange-800">
+                <p className="mb-2">
+                  Please enter your password to{" "}
+                  <b>{isEnroll ? "Enroll" : "Remove"}</b> the course
+                </p>
+                <p className="font-semibold">{cnf.course.title}</p>
+                <div className="relative mt-4 flex justify-center">
+                  <Lock className="absolute left-8 top-3 text-orange-500" />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="border rounded-lg w-[70%] px-10 py-2 bg-orange-50 outline-none"
+                    placeholder="Enter password"
+                  />
+                </div>
+              </div>
+              <div className="flex border-t">
+                <button
+                  className="w-1/2 py-3 bg-green-500 text-white font-semibold hover:bg-green-600 transition"
+                  onClick={() =>
+                    idx === 0
+                      ? handleVerifyPassword(password)
+                      : handleRemoveCourse(password)
+                  }
+                >
+                  Verify
+                </button>
+                <button
+                  className="w-1/2 py-3 bg-red-500 text-white font-semibold hover:bg-red-600 transition"
+                  onClick={() =>
+                    idx === 0
+                      ? setOpenCnf1({ title: "", state: false })
+                      : setOpenCnf2({ title: "", state: false })
+                  }
+                >
+                  Cancel
+                </button>
+              </div>
+              <X
+                className="absolute top-3 right-3 text-orange-600 cursor-pointer"
+                onClick={() =>
+                  idx === 0
+                    ? setOpenCnf1({ title: "", state: false })
+                    : setOpenCnf2({ title: "", state: false })
+                }
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default Courses;

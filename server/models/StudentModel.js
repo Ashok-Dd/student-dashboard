@@ -25,7 +25,16 @@ const StudentSchema = new mongoose.Schema({
   },
   branch: {
     type : String ,
-    enum : ['CSE' , "EEE" , 'ECE' , 'IT' , 'CSD' , 'MECH' , 'CIVIL'],
+enum: [
+    "CSE",
+    "ECE",
+    "EEE",
+    "IT",
+    "MECH",
+    "CIVIL",
+    "AIML",
+    "AIDS",
+],
     required : true 
   },
   year : {

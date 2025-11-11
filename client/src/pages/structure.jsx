@@ -22,7 +22,7 @@ const Stucture = () => {
     const nav = useNavigate();
     return (
         <>
-            <div className="flex h-screen w-full bg-white flex p-0 gap-1 bg-gray-200">
+            <div className="flex h-screen w-full bg-white overflow-y-hidden  flex p-0 gap-1 bg-gray-200">
                 <Sidebar/>
 
                 <div className="flex-1  bg-white rounded-2xl">
