@@ -269,39 +269,59 @@ const StudentProfile = () => {
 
       {/* Remove Confirmation Modal */}
       {openRemoveDialog && (
-        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
-          <div className="bg-white rounded-2xl shadow-lg w-[90%] sm:w-[400px] p-5 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-[90%] sm:w-[400px] bg-gradient-to-b from-orange-50 via-white to-orange-100 border border-orange-200 rounded-2xl shadow-2xl p-6 transform transition-all duration-300 hover:scale-[1.01]">
+
+            {/* Close Icon */}
             <X
-              className="absolute top-3 right-3 text-gray-600 cursor-pointer hover:text-orange-500"
+              className="absolute top-4 right-4 text-orange-600 cursor-pointer hover:text-orange-700 transition-all"
               onClick={() => setOpenRemoveDialog(false)}
             />
-            <h2 className="text-center text-red-500 text-xl font-bold mb-3">
-              Confirm Deletion
-            </h2>
-            <p className="text-center text-orange-700 mb-2">
-              Enter your password to remove <b>{student.name}</b>
-            </p>
 
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Lock className="text-orange-500" />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border border-orange-200 rounded-md px-3 py-2 w-3/4 focus:outline-none focus:ring-2 focus:ring-orange-300"
-                placeholder="Enter password"
-              />
+            {/* Header */}
+            <div className="text-center mb-4">
+              <h2 className="text-2xl font-extrabold text-red-500 uppercase tracking-wide">
+                Confirm Deletion
+              </h2>
+              <div className="w-20 h-1 bg-gradient-to-r from-red-400 to-orange-400 mx-auto mt-2 rounded-full"></div>
             </div>
 
+            {/* Body */}
+            <div className="text-center text-orange-800">
+              <p className="text-base mb-2">
+                Please enter your password to confirm removing
+              </p>
+              <p className="font-semibold text-lg italic text-orange-700">
+                “{student.name}”
+              </p>
+
+              {/* Password Input */}
+              <div className="relative mt-5 flex justify-center">
+                <Lock className="absolute left-10 sm:left-13 top-3 text-orange-500" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  className="w-[75%] px-10 py-2.5 border border-orange-300 rounded-xl bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300"
+                />
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="my-6 border-t border-orange-200"></div>
+
+            {/* Action Button */}
             <button
               onClick={handleVerifyPassword}
-              className="bg-orange-500 hover:bg-orange-400 w-full text-white py-2 rounded-lg font-semibold transition-all"
+              className="w-full py-2.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.98]"
             >
               Verify & Remove
             </button>
           </div>
         </div>
       )}
+
     </div>
   );
 };

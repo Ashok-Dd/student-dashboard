@@ -117,15 +117,16 @@ const Courses = () => {
       </h1>
 
       {/* Search Bar */}
-      <div className="w-[90%] sm:w-[70%] md:w-[50%] flex mb-6 shadow-lg rounded-lg overflow-hidden">
+      <div className="w-[90%] sm:w-[70%] md:w-[70%] flex mb-6 shadow-lg rounded-lg">
         <input
           type="text"
           placeholder="Search courses..."
           value={searchItem}
           onChange={(e) => setSearchItem(e.target.value)}
-          className="flex-1 px-4 py-3 outline-none bg-orange-100 text-orange-800 placeholder-orange-500"
+          className="flex-1 px-4 py-3 outline-none bg-orange-100 text-orange-800 rounded-l-lg placeholder-orange-500"
         />
-        <button className="bg-orange-500 px-4 flex items-center justify-center text-white hover:bg-orange-600 transition">
+        
+        <button className="bg-orange-500 px-4 flex items-center rounded-r-lg justify-center text-white hover:bg-orange-600 transition">
           <SearchIcon />
         </button>
       </div>
@@ -257,65 +258,85 @@ const Courses = () => {
         return (
           <div
             key={idx}
-            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-fadeIn"
           >
-            <div className="bg-orange-100 rounded-xl shadow-lg w-full max-w-md relative animate-fade-in">
-              <div className="border-b-2 border-orange-500 py-3 text-center">
-                <h2 className="text-xl font-bold text-orange-600 uppercase">
-                  Confirmation
-                </h2>
-              </div>
-              <div className="p-6 text-center text-orange-800">
-                <p className="mb-2">
-                  Please enter your password to{" "}
-                  <b>{isEnroll ? "Enroll" : "Remove"}</b> the course
-                </p>
-                <p className="font-semibold">{cnf.course.title}</p>
-                <div className="relative mt-4 flex justify-center">
-                  <Lock className="absolute left-8 top-3 text-orange-500" />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="border rounded-lg w-[70%] px-10 py-2 bg-orange-50 outline-none"
-                    placeholder="Enter password"
-                  />
-                </div>
-              </div>
-              <div className="flex border-t">
-                <button
-                  className="w-1/2 py-3 bg-green-500 text-white font-semibold hover:bg-green-600 transition"
-                  onClick={() =>
-                    idx === 0
-                      ? handleVerifyPassword(password)
-                      : handleRemoveCourse(password)
-                  }
-                >
-                  Verify
-                </button>
-                <button
-                  className="w-1/2 py-3 bg-red-500 text-white font-semibold hover:bg-red-600 transition"
-                  onClick={() =>
-                    idx === 0
-                      ? setOpenCnf1({ title: "", state: false })
-                      : setOpenCnf2({ title: "", state: false })
-                  }
-                >
-                  Cancel
-                </button>
-              </div>
+            {/* Modal Container */}
+            <div className="relative w-full max-w-md bg-gradient-to-b from-orange-50 via-white to-orange-100 border border-orange-200 rounded-2xl shadow-2xl p-6 transform transition-all scale-100 hover:scale-[1.01]">
+              {/* Close Icon */}
               <X
-                className="absolute top-3 right-3 text-orange-600 cursor-pointer"
+                className="absolute top-4 right-4 text-orange-600 hover:text-orange-700 cursor-pointer transition"
                 onClick={() =>
                   idx === 0
                     ? setOpenCnf1({ title: "", state: false })
                     : setOpenCnf2({ title: "", state: false })
                 }
               />
+
+              {/* Header */}
+              <div className="text-center mb-4">
+                <h2 className="text-2xl font-extrabold text-orange-600 tracking-wide uppercase">
+                  Confirmation
+                </h2>
+                <div className="w-16 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto mt-2 rounded-full"></div>
+              </div>
+
+              {/* Body */}
+              <div className="text-center text-orange-800">
+                <p className="text-base mb-2">
+                  Please enter your password to{" "}
+                  <b className="text-orange-600">
+                    {isEnroll ? "Enroll" : "Remove"}
+                  </b>{" "}
+                  the course
+                </p>
+                <p className="font-semibold text-lg italic text-orange-700">
+                  “{cnf.course.title}”
+                </p>
+
+                {/* Password Field */}
+                <div className="relative mt-5 flex justify-center">
+                  <Lock className="absolute left-12 sm:left-14 top-3 text-orange-500" />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter password"
+                    className="w-[75%] px-10 py-2.5 border border-orange-300 rounded-xl bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-400 transition"
+                  />
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="my-5 border-t border-orange-200"></div>
+
+              {/* Buttons */}
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={() =>
+                    idx === 0
+                      ? handleVerifyPassword(password)
+                      : handleRemoveCourse(password)
+                  }
+                  className="flex-1 py-2.5 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 active:scale-[0.98]"
+                >
+                  Verify
+                </button>
+                <button
+                  onClick={() =>
+                    idx === 0
+                      ? setOpenCnf1({ title: "", state: false })
+                      : setOpenCnf2({ title: "", state: false })
+                  }
+                  className="flex-1 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 active:scale-[0.98]"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         );
       })}
+
     </div>
   );
 };
