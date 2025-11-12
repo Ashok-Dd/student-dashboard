@@ -42,7 +42,7 @@ const Students = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center bg-orange-50 relative py-10 px-4 sm:px-8">
+    <div className="h-screen overflow-y-auto flex flex-col items-center bg-orange-50 relative py-10 px-4 sm:px-8">
       {/* Header and Button */}
       <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-5xl mb-8 gap-4">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-orange-700 drop-shadow-md">

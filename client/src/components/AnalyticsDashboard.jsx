@@ -84,7 +84,7 @@ const AnalyticsDashboard = () => {
 
   return (
     <div className="w-full h-screen overflow-y-auto bg-orange-50 sm:p-10">
-      <h1 className="text-4xl font-bold text-orange-700 mb-8 text-center uppercase mt-15 sm:mt-0">Student Analytics Dashboard</h1>
+      <h1 className="text-2xlsm:text-4xl font-bold text-orange-700 mb-8 text-center  mt-15 sm:mt-0">Student Analytics Dashboard</h1>
 
       {/* Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
